@@ -135,50 +135,6 @@
 
         .hero-note p { color: rgba(255, 248, 242, 0.8); margin-top: 10px; }
 
-        .hero-scene {
-            margin-top: 24px;
-            display: grid;
-            gap: 14px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .scene-card {
-            position: relative;
-            overflow: hidden;
-            padding: 18px 18px 18px 20px;
-            border-radius: 22px;
-            background: linear-gradient(135deg, rgba(255, 249, 240, 0.92), rgba(241, 226, 205, 0.88));
-            border: 1px solid rgba(89, 55, 28, 0.08);
-        }
-
-        .scene-card::after {
-            content: "";
-            position: absolute;
-            right: -18px;
-            top: -18px;
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(199, 140, 57, 0.18), transparent 70%);
-        }
-
-        .scene-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--accent-deep);
-            font-weight: 700;
-            letter-spacing: .04em;
-        }
-
-        .scene-card p {
-            margin-top: 10px;
-            color: var(--muted);
-            line-height: 1.8;
-            max-width: 40ch;
-        }
-
         .weather .day { color: var(--muted); font-size: .92rem; }
         .weather .temp { font-size: 1.5rem; font-weight: 700; margin: 12px 0 6px; }
         .weather .desc { color: var(--accent-deep); }
@@ -189,59 +145,6 @@
             align-items: end;
             gap: 16px;
             margin: 28px 0 16px;
-        }
-
-        .flavor-strip {
-            margin-top: 24px;
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 14px;
-        }
-
-        .flavor {
-            position: relative;
-            overflow: hidden;
-            padding: 18px;
-            border-radius: 22px;
-            background: linear-gradient(180deg, rgba(255, 251, 246, 0.94), rgba(248, 239, 227, 0.92));
-            border: 1px solid rgba(89, 55, 28, 0.1);
-            box-shadow: 0 14px 30px rgba(82, 49, 24, 0.08);
-        }
-
-        .flavor::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background:
-                linear-gradient(45deg, transparent 0 46%, rgba(164, 74, 49, 0.05) 46% 54%, transparent 54% 100%),
-                linear-gradient(-45deg, transparent 0 46%, rgba(199, 140, 57, 0.05) 46% 54%, transparent 54% 100%);
-            background-size: 20px 20px;
-            opacity: .6;
-            pointer-events: none;
-        }
-
-        .flavor > * {
-            position: relative;
-            z-index: 1;
-        }
-
-        .flavor h3 {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .flavor p {
-            color: var(--muted);
-            line-height: 1.75;
-        }
-
-        .flavor small {
-            display: block;
-            margin-top: 12px;
-            color: var(--accent-deep);
-            font-weight: 600;
         }
 
         .tabs {
@@ -433,36 +336,9 @@
             margin-top: 24px;
         }
 
-        .city-footer {
-            margin-top: 22px;
-            padding: 18px 20px;
-            border-radius: 24px;
-            background:
-                linear-gradient(120deg, rgba(112, 42, 28, 0.96), rgba(164, 74, 49, 0.9)),
-                radial-gradient(circle at right, rgba(255, 255, 255, 0.12), transparent 40%);
-            color: #fff7f0;
-            border: 1px solid rgba(255, 233, 216, 0.18);
-            box-shadow: 0 20px 40px rgba(82, 49, 24, 0.16);
-        }
-
-        .city-footer h3 {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 8px;
-        }
-
-        .city-footer p {
-            max-width: 72ch;
-            margin: 0 auto;
-            line-height: 1.8;
-            color: rgba(255, 247, 240, 0.84);
-        }
-
         @media (max-width: 900px) {
             .hero, .summary-grid, .info-grid { grid-template-columns: 1fr; }
-            .weather-grid, .chip-row, .stats, .flavor-strip { grid-template-columns: 1fr; }
+            .weather-grid, .chip-row, .stats { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 680px) {
@@ -479,16 +355,10 @@
             <div>
                 <span class="eyebrow"><i class="fa-solid fa-location-dot"></i> Beijing City Break</span>
                 <h1>北京清明之旅</h1>
-                <p>把经典皇城轴线、胡同烟火气和春日园林串起来。页面里也补了一点屋檐、城景和京味儿氛围，让行程之外的城市气质更明显。</p>
+                <p>经典皇城轴线、胡同烟火气和春日园林，三天两晚的北京清明小旅行。</p>
                 <div class="chip-row">
                     <div class="chip"><i class="fa-regular fa-calendar"></i><span><strong>2026.04.04 - 04.06</strong> ｜ 3天2晚</span></div>
                     <div class="chip"><i class="fa-solid fa-hotel"></i><span><strong>住宿</strong> ｜ 菜市口地铁站附近</span></div>
-                </div>
-                <div class="hero-scene">
-                    <div class="scene-card">
-                        <div class="scene-label"><i class="fa-solid fa-landmark-dome"></i><span>皇城中轴</span></div>
-                        <p>天安门、景山、前门这一线本身就很像北京的城市封面，适合做整页最先被看到的视觉记忆点。</p>
-                    </div>
                 </div>
             </div>
             <div style="display:grid;gap:14px;align-self:end;">
@@ -519,31 +389,13 @@
         <div class="section-head">
             <div>
                 <h2>行程方案</h2>
-                <p class="sub">两套路线分别偏向皇城地标和胡同漫游，但都尽量保留了鲜明的北京城市质感。</p>
+                <p class="sub">两套路线分别偏向皇城地标和胡同漫游，可根据喜好选择。</p>
             </div>
             <div class="tabs">
                 <button class="tab-btn active" type="button" data-target="plan-a">方案 A · 经典皇城</button>
                 <button class="tab-btn" type="button" data-target="plan-b">方案 B · 人文漫游</button>
             </div>
         </div>
-
-        <section class="flavor-strip">
-            <article class="flavor">
-                <h3><i class="fa-solid fa-archway"></i> 城门与屋檐</h3>
-                <p>页首加入了更像宫阙和旧城轮廓的层叠剪影，开场观感会更接近北京，而不是一张普通旅行卡片。</p>
-                <small>关键词：中轴、宫墙、城景</small>
-            </article>
-            <article class="flavor">
-                <h3><i class="fa-solid fa-bowl-food"></i> 胡同烟火气</h3>
-                <p>把前门、大栅栏、什刹海这类内容的生活感提出来，既有景点，也有北京街巷那种边走边看的松弛感。</p>
-                <small>关键词：胡同、烟火、慢逛</small>
-            </article>
-            <article class="flavor">
-                <h3><i class="fa-solid fa-leaf"></i> 春日园林感</h3>
-                <p>延续原来的暖色调，但更明确地往宫墙红、琉璃金、杏色春景靠，让颐和园和天坛这些内容更有呼应。</p>
-                <small>关键词：园林、春风、金瓦</small>
-            </article>
-        </section>
 
         <section id="plan-a" class="panel active">
             <div class="summary-grid">
@@ -574,7 +426,7 @@
                         <div class="timeline-item highlight"><div class="time">11:30 - 14:30</div><div><div class="title"><i class="fa-solid fa-camera"></i>威尼斯花园六区拍照</div><p class="desc">预留2-3小时拍照，网红打卡地~</p><span class="tag">拍照打卡</span></div></div>
                         <div class="timeline-item"><div class="time">14:30 - 17:00</div><div><div class="title"><i class="fa-solid fa-hotel"></i>午餐 + 办理入住</div><p class="desc">菜市口地铁站附近，办理入住休息</p></div></div>
                         <div class="timeline-item"><div class="time">17:00 - 18:30</div><div><div class="title"><i class="fa-solid fa-utensils"></i>前门大街逛吃</div><p class="desc">老北京商业街，品尝地道小吃</p></div></div>
-                        <div class="timeline-item highlight"><div class="time">19:00 - 20:30</div><div><div class="title"><i class="fa-solid fa-landmark"></i>天安门广场夜景</div><p class="desc">夜景超美！记得提前预约进入广场</p><img class="spot-image" src="https://aos-comment.amap.com/B000A7O5PK/comment/5559199C_09BF_43ED_8801_CBE80F863DE6_L0_001_1080_1440_1726398854311_66662512.jpg" alt="天安门广场"><div class="spot-info"><strong>天安门广场</strong><p>世界上最大的城市广场之一，夜景灯光璀璨，是北京必打卡的地标</p></div><span class="tag">必打卡</span></div></div>
+                        <div class="timeline-item highlight"><div class="time">19:00 - 20:30</div><div><div class="title"><i class="fa-solid fa-landmark"></i>天安门广场夜景</div><p class="desc">夜景超美！记得提前预约进入广场</p><div class="spot-info"><strong>天安门广场</strong><p>世界上最大的城市广场之一，夜景灯光璀璨，是北京必打卡的地标</p></div><span class="tag">必打卡</span></div></div>
                         <div class="timeline-item"><div class="time">20:30 - 21:30</div><div><div class="title"><i class="fa-solid fa-moon"></i>前门大街美食街</div><p class="desc">全聚德烤鸭、都一处烧麦等老北京美食</p></div></div>
                     </div>
                 </article>
@@ -683,12 +535,8 @@
         </section>
 
         <footer>
-            <p>北京清明小旅行 · 现在更像一本整理过的行程册，而不是一张堆满信息的长图。</p>
+            <p>北京清明小旅行 · 祝旅途愉快！</p>
         </footer>
-        <section class="city-footer">
-            <h3><i class="fa-solid fa-fan"></i> 页面现在更像一页北京行旅册</h3>
-            <p>我把北京元素控制在"有气质但不喧宾夺主"的范围里，重点仍然是行程本身，只是画面和文字会更有在地感。</p>
-        </section>
     </main>
 
     <script>
