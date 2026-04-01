@@ -87,7 +87,7 @@
             font-size: .92rem;
         }
 
-        h1, h2, h3, h4 { font-family: "Noto Serif SC", serif; }
+        h1, h2, h3 { font-family: "Noto Serif SC", serif; }
 
         .hero h1 {
             font-size: clamp(2.2rem, 5vw, 4.2rem);
@@ -261,16 +261,11 @@
             border-radius: 999px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
         }
 
         .tab-btn.active {
             color: #fff8f3;
             background: linear-gradient(135deg, var(--accent), var(--accent-deep));
-        }
-
-        .tab-btn:hover:not(.active) {
-            background: rgba(164, 74, 49, 0.1);
         }
 
         .panel { display: none; }
@@ -368,14 +363,6 @@
             box-shadow: 0 0 0 6px rgba(199, 140, 57, 0.18);
         }
 
-        .timeline-item.highlight::before {
-            width: 14px;
-            height: 14px;
-            left: -22px;
-            background: var(--accent);
-            box-shadow: 0 0 0 6px rgba(164, 74, 49, 0.2);
-        }
-
         .timeline-item.focus {
             background: linear-gradient(135deg, rgba(164, 74, 49, 0.1), rgba(199, 140, 57, 0.08));
         }
@@ -392,35 +379,6 @@
             color: var(--accent-deep);
             font-size: .88rem;
             font-weight: 600;
-        }
-
-        .spot-image {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 14px;
-            margin-top: 12px;
-            box-shadow: 0 8px 20px rgba(82, 49, 24, 0.1);
-        }
-
-        .spot-info {
-            margin-top: 12px;
-            padding: 12px 14px;
-            background: linear-gradient(135deg, rgba(248, 239, 227, 0.9), rgba(241, 226, 205, 0.85));
-            border-radius: 12px;
-            border-left: 3px solid var(--accent);
-        }
-
-        .spot-info strong {
-            color: var(--accent-deep);
-            font-size: 1rem;
-        }
-
-        .spot-info p {
-            color: var(--muted);
-            font-size: .88rem;
-            margin-top: 4px;
-            line-height: 1.6;
         }
 
         .booking.must { background: rgba(164, 74, 49, 0.08); border-color: rgba(164, 74, 49, 0.18); }
@@ -569,35 +527,27 @@
                 <article class="day">
                     <div class="day-head"><h3>Day 1</h3><span class="badge">4月4日 周六</span></div>
                     <div class="timeline">
-                        <div class="timeline-item"><div class="time">09:14</div><div><div class="title"><i class="fa-solid fa-train-subway"></i>抵达北京南站</div><p class="desc">高铁抵达，开始美好的北京之旅~</p></div></div>
-                        <div class="timeline-item"><div class="time">09:30 - 11:30</div><div><div class="title"><i class="fa-solid fa-route"></i>前往威尼斯花园六区</div><p class="desc">地铁14号线 → 5号线 → 公交，约2小时车程</p><span class="tag">交通段</span></div></div>
-                        <div class="timeline-item highlight"><div class="time">11:30 - 14:30</div><div><div class="title"><i class="fa-solid fa-camera"></i>威尼斯花园六区拍照</div><p class="desc">预留2-3小时拍照，网红打卡地~</p><span class="tag">拍照打卡</span></div></div>
-                        <div class="timeline-item"><div class="time">14:30 - 17:00</div><div><div class="title"><i class="fa-solid fa-hotel"></i>午餐 + 办理入住</div><p class="desc">菜市口地铁站附近，办理入住休息</p></div></div>
-                        <div class="timeline-item"><div class="time">17:00 - 18:30</div><div><div class="title"><i class="fa-solid fa-utensils"></i>前门大街逛吃</div><p class="desc">老北京商业街，品尝地道小吃</p></div></div>
-                        <div class="timeline-item highlight"><div class="time">19:00 - 20:30</div><div><div class="title"><i class="fa-solid fa-landmark"></i>天安门广场夜景</div><p class="desc">夜景超美！记得提前预约进入广场</p><img class="spot-image" src="https://aos-comment.amap.com/B000A7O5PK/comment/5559199C_09BF_43ED_8801_CBE80F863DE6_L0_001_1080_1440_1726398854311_66662512.jpg" alt="天安门广场"><div class="spot-info"><strong>天安门广场</strong><p>世界上最大的城市广场之一，夜景灯光璀璨，是北京必打卡的地标</p></div><span class="tag">必打卡</span></div></div>
-                        <div class="timeline-item"><div class="time">20:30 - 21:30</div><div><div class="title"><i class="fa-solid fa-moon"></i>前门大街美食街</div><p class="desc">全聚德烤鸭、都一处烧麦等老北京美食</p></div></div>
+                        <div class="timeline-item"><div class="time">09:14</div><div><div class="title"><i class="fa-solid fa-train-subway"></i>抵达北京南站</div><p class="desc">建议先轻装出发，把第一天节奏拉顺。</p></div></div>
+                        <div class="timeline-item"><div class="time">09:30 - 11:30</div><div><div class="title"><i class="fa-solid fa-route"></i>前往威尼斯花园六区</div><p class="desc">上午先完成较长的移动段，后面会更从容。</p><span class="tag">交通段</span></div></div>
+                        <div class="timeline-item focus"><div class="time">11:30 - 14:30</div><div><div class="title"><i class="fa-solid fa-camera"></i>威尼斯花园六区拍照</div><p class="desc">留 2 到 3 小时，作为轻松开场。</p><span class="tag">拍照打卡</span></div></div>
+                        <div class="timeline-item"><div class="time">14:30 - 17:00</div><div><div class="title"><i class="fa-solid fa-hotel"></i>午餐 + 办理入住</div><p class="desc">回菜市口附近补体力，给晚上留精神。</p></div></div>
+                        <div class="timeline-item focus"><div class="time">19:00 - 20:30</div><div><div class="title"><i class="fa-solid fa-landmark"></i>天安门广场夜景</div><p class="desc">这趟旅行最值得保留的开场场景之一。</p><span class="tag">必打卡</span></div></div>
                     </div>
                 </article>
                 <article class="day">
                     <div class="day-head"><h3>Day 2</h3><span class="badge">4月5日 周日</span></div>
                     <div class="timeline">
-                        <div class="timeline-item"><div class="time">08:00 - 08:30</div><div><div class="title"><i class="fa-solid fa-route"></i>前往人民大会堂</div><p class="desc">地铁4号线 → 1号线，约26分钟</p></div></div>
-                        <div class="timeline-item highlight"><div class="time">09:00 - 11:00</div><div><div class="title"><i class="fa-solid fa-building-columns"></i>人民大会堂</div><p class="desc">国家重要会议场所，建筑宏伟壮观</p><div class="spot-info"><strong>人民大会堂</strong><p>需提前预约！位于天安门广场西侧，是中国最重要的建筑之一</p></div><span class="tag">预约优先</span></div></div>
-                        <div class="timeline-item"><div class="time">11:00 - 12:30</div><div><div class="title"><i class="fa-solid fa-utensils"></i>午餐</div><p class="desc">故宫周边用餐</p></div></div>
-                        <div class="timeline-item highlight"><div class="time">13:00 - 15:00</div><div><div class="title"><i class="fa-solid fa-mountain-sun"></i>景山公园</div><p class="desc">俯瞰故宫全景最佳位置！万春亭拍照绝美</p><img class="spot-image" src="http://store.is.autonavi.com/showpic/10eb01af2fd301e54e50d42ea636ccef" alt="景山公园"><div class="spot-info"><strong>景山公园</strong><p>门票2元，万春亭可俯瞰故宫全景，是拍照的绝佳位置</p></div><span class="tag">全景机位</span></div></div>
-                        <div class="timeline-item highlight"><div class="time">15:30 - 17:30</div><div><div class="title"><i class="fa-solid fa-water"></i>北海公园</div><p class="desc">白塔、划船，皇家园林风光</p><img class="spot-image" src="http://store.is.autonavi.com/showpic/68a92863a790f69d2221f7c53906c8c2" alt="北海公园"><div class="spot-info"><strong>北海公园</strong><p>门票10元，白塔是标志性建筑，可以划船游湖</p></div><span class="tag">推荐</span></div></div>
-                        <div class="timeline-item highlight"><div class="time">18:00 - 21:00</div><div><div class="title"><i class="fa-solid fa-torii-gate"></i>什刹海 + 南锣鼓巷</div><p class="desc">胡同文化、酒吧街、特色小店</p><img class="spot-image" src="http://store.is.autonavi.com/showpic/dd97c0390e296f47a20b72063ec86990" alt="什刹海"><div class="spot-info"><strong>什刹海</strong><p>免费开放，老北京胡同文化体验，酒吧街很有氛围</p></div><span class="tag">免费</span></div></div>
+                        <div class="timeline-item focus"><div class="time">08:00 - 11:30</div><div><div class="title"><i class="fa-solid fa-building-columns"></i>人民大会堂</div><p class="desc">如果想看更有仪式感的北京地标，这站值得保留。</p><span class="tag">预约优先</span></div></div>
+                        <div class="timeline-item focus"><div class="time">13:00 - 14:30</div><div><div class="title"><i class="fa-solid fa-mountain-sun"></i>景山公园</div><p class="desc">俯瞰故宫全景，是方案 A 的视觉高点。</p><span class="tag">全景机位</span></div></div>
+                        <div class="timeline-item"><div class="time">15:00 - 17:30</div><div><div class="title"><i class="fa-solid fa-shop"></i>前门大街慢逛</div><p class="desc">适合吃饭、补拍和买点轻伴手礼。</p></div></div>
                     </div>
                 </article>
                 <article class="day">
                     <div class="day-head"><h3>Day 3</h3><span class="badge">4月6日 周一</span></div>
                     <div class="timeline">
-                        <div class="timeline-item"><div class="time">07:30 - 08:30</div><div><div class="title"><i class="fa-solid fa-route"></i>前往颐和园</div><p class="desc">地铁4号线，约1小时</p></div></div>
-                        <div class="timeline-item highlight"><div class="time">08:30 - 12:30</div><div><div class="title"><i class="fa-solid fa-torii-gate"></i>颐和园</div><p class="desc">皇家园林典范，昆明湖、佛香阁、长廊</p><img class="spot-image" src="http://store.is.autonavi.com/showpic/a4b326f43a84d36b581d7f6e856fe858" alt="颐和园"><div class="spot-info"><strong>颐和园</strong><p>AAAAA级景区，门票30元，开放时间6:00-20:00，皇家园林的典范</p></div><span class="tag">园林主场</span></div></div>
-                        <div class="timeline-item"><div class="time">12:30 - 13:30</div><div><div class="title"><i class="fa-solid fa-utensils"></i>午餐</div><p class="desc">颐和园附近用餐</p></div></div>
-                        <div class="timeline-item highlight"><div class="time">14:00 - 16:30</div><div><div class="title"><i class="fa-solid fa-gopuram"></i>天坛公园</div><p class="desc">祈年殿、回音壁、圜丘，明清皇家祭坛</p><img class="spot-image" src="http://store.is.autonavi.com/showpic/561ebdb222a6f17913f1bbd1062c3d93" alt="天坛公园"><div class="spot-info"><strong>天坛公园</strong><p>AAAAA级景区，门票15元，开放时间6:00-22:00，明清皇帝祭天的地方</p></div><span class="tag">经典收官</span></div></div>
-                        <div class="timeline-item"><div class="time">16:30 - 17:30</div><div><div class="title"><i class="fa-solid fa-route"></i>前往北京南站</div><p class="desc">地铁，约40分钟</p></div></div>
-                        <div class="timeline-item"><div class="time">18:00</div><div><div class="title"><i class="fa-solid fa-train"></i>北京南站返程</div><p class="desc">高铁返程，结束美好的旅程~</p></div></div>
+                        <div class="timeline-item focus"><div class="time">08:30 - 12:00</div><div><div class="title"><i class="fa-solid fa-torii-gate"></i>颐和园</div><p class="desc">皇家园林体验完整，适合作为返程前的慢游。</p><span class="tag">园林主场</span></div></div>
+                        <div class="timeline-item focus"><div class="time">14:00 - 16:30</div><div><div class="title"><i class="fa-solid fa-gopuram"></i>天坛公园</div><p class="desc">祈年殿和回音壁识别度高，适合收尾。</p><span class="tag">经典收官</span></div></div>
+                        <div class="timeline-item"><div class="time">18:00</div><div><div class="title"><i class="fa-solid fa-train"></i>北京南站返程</div><p class="desc">最后半天别排太满，返程更稳。</p></div></div>
                     </div>
                 </article>
             </div>
@@ -607,7 +557,7 @@
             <div class="summary-grid">
                 <article class="card">
                     <h3>方案 B 概览</h3>
-                    <p class="sub">更偏"北京味儿"。把雍和宫、国子监、恭王府、什刹海和南锣鼓巷串起来，历史感和漫游感更强。</p>
+                    <p class="sub">更偏“北京味儿”。把雍和宫、国子监、恭王府、什刹海和南锣鼓巷串起来，历史感和漫游感更强。</p>
                     <div class="stats">
                         <div class="stat"><small>风格</small><strong>人文漫游</strong></div>
                         <div class="stat"><small>节奏</small><strong>更松弛</strong></div>
@@ -619,7 +569,7 @@
                     <div class="mini-list" style="margin-top:16px;">
                         <div class="mini"><i class="fa-solid fa-place-of-worship"></i><div>雍和宫和国子监组合，氛围更安静更有文化味道。</div></div>
                         <div class="mini"><i class="fa-solid fa-water"></i><div>什刹海和南锣鼓巷放在傍晚，散步体验更舒服。</div></div>
-                        <div class="mini"><i class="fa-solid fa-house-chimney-window"></i><div>整体没那么"景点清单化"，更适合边走边吃边拍。</div></div>
+                        <div class="mini"><i class="fa-solid fa-house-chimney-window"></i><div>整体没那么“景点清单化”，更适合边走边吃边拍。</div></div>
                     </div>
                 </article>
             </div>
@@ -627,36 +577,27 @@
                 <article class="day">
                     <div class="day-head"><h3>Day 1</h3><span class="badge">4月4日 周六</span></div>
                     <div class="timeline">
-                        <div class="timeline-item"><div class="time">09:14</div><div><div class="title"><i class="fa-solid fa-train-subway"></i>抵达北京南站</div><p class="desc">高铁抵达，开始美好的北京之旅~</p></div></div>
-                        <div class="timeline-item"><div class="time">09:30 - 11:30</div><div><div class="title"><i class="fa-solid fa-route"></i>前往威尼斯花园六区</div><p class="desc">地铁14号线 → 5号线 → 公交，约2小时车程</p><span class="tag">交通段</span></div></div>
-                        <div class="timeline-item highlight"><div class="time">11:30 - 14:30</div><div><div class="title"><i class="fa-solid fa-camera"></i>威尼斯花园六区拍照</div><p class="desc">预留2-3小时拍照，网红打卡地~</p><span class="tag">拍照打卡</span></div></div>
-                        <div class="timeline-item"><div class="time">14:30 - 17:00</div><div><div class="title"><i class="fa-solid fa-hotel"></i>午餐 + 办理入住</div><p class="desc">菜市口地铁站附近，办理入住休息</p></div></div>
-                        <div class="timeline-item"><div class="time">17:00 - 18:30</div><div><div class="title"><i class="fa-solid fa-store"></i>大栅栏随意逛</div><p class="desc">老北京商业街，感受传统商业文化</p></div></div>
-                        <div class="timeline-item highlight"><div class="time">19:00 - 20:30</div><div><div class="title"><i class="fa-solid fa-monument"></i>天安门广场夜景</div><p class="desc">夜景超美！记得提前预约进入广场</p><img class="spot-image" src="https://aos-comment.amap.com/B000A7O5PK/comment/5559199C_09BF_43ED_8801_CBE80F863DE6_L0_001_1080_1440_1726398854311_66662512.jpg" alt="天安门广场"><div class="spot-info"><strong>天安门广场</strong><p>世界上最大的城市广场之一，夜景灯光璀璨</p></div><span class="tag">共通主景</span></div></div>
-                        <div class="timeline-item"><div class="time">20:30 - 21:30</div><div><div class="title"><i class="fa-solid fa-moon"></i>前门大街美食街</div><p class="desc">老北京小吃，感受京城夜生活</p></div></div>
+                        <div class="timeline-item"><div class="time">09:14</div><div><div class="title"><i class="fa-solid fa-train-subway"></i>抵达北京南站</div><p class="desc">上午先把远一点的拍照点走完，后面回核心区域。</p></div></div>
+                        <div class="timeline-item focus"><div class="time">11:30 - 14:30</div><div><div class="title"><i class="fa-solid fa-camera"></i>威尼斯花园六区拍照</div><p class="desc">和方案 A 共用，仍然适合做开场拍照位。</p><span class="tag">共享段</span></div></div>
+                        <div class="timeline-item"><div class="time">17:00 - 18:30</div><div><div class="title"><i class="fa-solid fa-store"></i>大栅栏随意逛</div><p class="desc">刚入住后的轻松晚餐时段。</p></div></div>
+                        <div class="timeline-item focus"><div class="time">19:00 - 20:30</div><div><div class="title"><i class="fa-solid fa-monument"></i>天安门广场夜景</div><p class="desc">两套方案都值得保留这一段夜景。</p><span class="tag">共通主景</span></div></div>
                     </div>
                 </article>
                 <article class="day">
                     <div class="day-head"><h3>Day 2</h3><span class="badge">4月5日 周日</span></div>
                     <div class="timeline">
-                        <div class="timeline-item"><div class="time">08:00 - 08:30</div><div><div class="title"><i class="fa-solid fa-route"></i>前往雍和宫</div><p class="desc">地铁4号线 → 2号线/5号线，约30分钟</p></div></div>
-                        <div class="timeline-item highlight"><div class="time">08:30 - 11:00</div><div><div class="title"><i class="fa-solid fa-place-of-worship"></i>雍和宫</div><p class="desc">北京最大藏传佛教寺院，祈福超灵验！</p><img class="spot-image" src="http://store.is.autonavi.com/showpic/9b9abb2a9fff0b6491230aa4435f7ad5" alt="雍和宫"><div class="spot-info"><strong>雍和宫</strong><p>门票25元，早上人少香火旺，祈福求愿很灵</p></div><span class="tag">祈福圣地</span></div></div>
-                        <div class="timeline-item"><div class="time">11:00 - 12:30</div><div><div class="title"><i class="fa-solid fa-book"></i>国子监 + 孔庙</div><p class="desc">古代最高学府，状元文化体验</p><span class="tag">文化体验</span></div></div>
-                        <div class="timeline-item"><div class="time">12:30 - 13:30</div><div><div class="title"><i class="fa-solid fa-utensils"></i>午餐 - 簋街美食</div><p class="desc">簋街小龙虾、麻辣香锅等美食</p></div></div>
-                        <div class="timeline-item highlight"><div class="time">14:00 - 16:30</div><div><div class="title"><i class="fa-solid fa-house"></i>恭王府</div><p class="desc">和珅府邸，"一座恭王府，半部清代史"</p><img class="spot-image" src="http://store.is.autonavi.com/showpic/e242ed1956e6d775a8912cfd3934169b" alt="恭王府"><div class="spot-info"><strong>恭王府</strong><p>门票40元，必看福字碑、后花园，是清代规模最大的王府</p></div><span class="tag">清代王府</span></div></div>
-                        <div class="timeline-item highlight"><div class="time">17:00 - 19:00</div><div><div class="title"><i class="fa-solid fa-water"></i>什刹海日落</div><p class="desc">湖边漫步、酒吧街，欣赏日落美景</p><img class="spot-image" src="http://store.is.autonavi.com/showpic/dd97c0390e296f47a20b72063ec86990" alt="什刹海"><div class="spot-info"><strong>什刹海</strong><p>免费开放，日落时分最美，酒吧街很有氛围</p></div><span class="tag">氛围段</span></div></div>
-                        <div class="timeline-item highlight"><div class="time">19:00 - 21:00</div><div><div class="title"><i class="fa-solid fa-walking"></i>南锣鼓巷</div><p class="desc">胡同美食、特色小店、文艺氛围</p><img class="spot-image" src="http://store.is.autonavi.com/showpic/6aa94c24640267a56c22af0b9629030a" alt="南锣鼓巷"><div class="spot-info"><strong>南锣鼓巷</strong><p>免费开放，北京最火的胡同之一，美食和特色小店很多</p></div><span class="tag">免费</span></div></div>
+                        <div class="timeline-item focus"><div class="time">08:30 - 11:00</div><div><div class="title"><i class="fa-solid fa-place-of-worship"></i>雍和宫</div><p class="desc">放在上午去，氛围和人流都会更友好。</p><span class="tag">建议预约</span></div></div>
+                        <div class="timeline-item"><div class="time">11:00 - 12:30</div><div><div class="title"><i class="fa-solid fa-book"></i>国子监 + 孔庙</div><p class="desc">从寺庙切到书卷气，文化线更完整。</p></div></div>
+                        <div class="timeline-item focus"><div class="time">14:00 - 16:30</div><div><div class="title"><i class="fa-solid fa-house"></i>恭王府</div><p class="desc">园林和王府空间都比较出片。</p><span class="tag">清代王府</span></div></div>
+                        <div class="timeline-item focus"><div class="time">17:00 - 21:00</div><div><div class="title"><i class="fa-solid fa-water"></i>什刹海日落 + 南锣鼓巷</div><p class="desc">这是方案 B 最有氛围感的一段。</p><span class="tag">氛围段</span></div></div>
                     </div>
                 </article>
                 <article class="day">
                     <div class="day-head"><h3>Day 3</h3><span class="badge">4月6日 周一</span></div>
                     <div class="timeline">
-                        <div class="timeline-item"><div class="time">07:30 - 08:30</div><div><div class="title"><i class="fa-solid fa-route"></i>前往颐和园</div><p class="desc">地铁4号线，约1小时</p></div></div>
-                        <div class="timeline-item highlight"><div class="time">08:30 - 12:00</div><div><div class="title"><i class="fa-solid fa-torii-gate"></i>颐和园</div><p class="desc">皇家园林典范，昆明湖、佛香阁、长廊</p><img class="spot-image" src="http://store.is.autonavi.com/showpic/a4b326f43a84d36b581d7f6e856fe858" alt="颐和园"><div class="spot-info"><strong>颐和园</strong><p>AAAAA级景区，门票30元，皇家园林的典范</p></div><span class="tag">园林漫游</span></div></div>
-                        <div class="timeline-item"><div class="time">12:00 - 13:00</div><div><div class="title"><i class="fa-solid fa-utensils"></i>午餐</div><p class="desc">颐和园附近用餐</p></div></div>
-                        <div class="timeline-item highlight"><div class="time">13:30 - 16:00</div><div><div class="title"><i class="fa-solid fa-archway"></i>圆明园遗址公园</div><p class="desc">西洋楼遗址、历史教育，铭记历史</p><img class="spot-image" src="http://store.is.autonavi.com/showpic/0c8257320e8c8a771ef6aef1cb358483" alt="圆明园"><div class="spot-info"><strong>圆明园遗址公园</strong><p>门票10元，西洋楼遗址必看，是重要的历史教育基地</p></div><span class="tag">历史收尾</span></div></div>
-                        <div class="timeline-item"><div class="time">16:00 - 17:30</div><div><div class="title"><i class="fa-solid fa-route"></i>前往北京南站</div><p class="desc">地铁4号线，约40分钟</p></div></div>
-                        <div class="timeline-item"><div class="time">18:00</div><div><div class="title"><i class="fa-solid fa-train"></i>北京南站返程</div><p class="desc">高铁返程，结束美好的旅程~</p></div></div>
+                        <div class="timeline-item focus"><div class="time">08:30 - 12:00</div><div><div class="title"><i class="fa-solid fa-torii-gate"></i>颐和园</div><p class="desc">用一段舒展的大景点，避免第三天仍然太密。</p><span class="tag">园林漫游</span></div></div>
+                        <div class="timeline-item focus"><div class="time">13:30 - 16:00</div><div><div class="title"><i class="fa-solid fa-archway"></i>圆明园遗址公园</div><p class="desc">和颐和园放在一起更顺路，也更有历史感。</p><span class="tag">历史收尾</span></div></div>
+                        <div class="timeline-item"><div class="time">18:00</div><div><div class="title"><i class="fa-solid fa-train"></i>北京南站返程</div><p class="desc">最后一天依然建议别排太满。</p></div></div>
                     </div>
                 </article>
             </div>
@@ -666,18 +607,17 @@
             <article class="card">
                 <h3>预约提醒</h3>
                 <div class="bookings" style="margin-top:16px;">
-                    <div class="booking must"><h4><i class="fa-solid fa-building-columns"></i>人民大会堂</h4><p>预约方式："人民大会堂"官方小程序，提前1-7天。方案A需要。</p></div>
-                    <div class="booking must"><h4><i class="fa-solid fa-monument"></i>天安门广场</h4><p>预约方式："天安门广场预约参观"小程序，提前1-9天。两套方案都需要。</p></div>
-                    <div class="booking"><h4><i class="fa-solid fa-place-of-worship"></i>雍和宫 / 恭王府 / 颐和园</h4><p>节假日建议提前查看开放规则和入园方式，通过官方公众号预约。</p></div>
+                    <div class="booking must"><h4><i class="fa-solid fa-building-columns"></i>人民大会堂</h4><p>方案 A 重点项目，建议至少提前 3 到 7 天确认预约方式。</p></div>
+                    <div class="booking must"><h4><i class="fa-solid fa-monument"></i>天安门广场</h4><p>两套方案都涉及，夜景时段人流更集中，要优先处理。</p></div>
+                    <div class="booking"><h4><i class="fa-solid fa-place-of-worship"></i>雍和宫 / 恭王府 / 颐和园</h4><p>节假日建议提前查看开放规则和入园方式。</p></div>
                 </div>
             </article>
             <article class="card">
                 <h3>出行建议</h3>
                 <div class="tips" style="margin-top:16px;">
-                    <div class="tip"><h4><i class="fa-solid fa-subway"></i>交通</h4><p>下载"亿通行"APP，地铁公交都方便。北京地铁覆盖广，建议优先选择地铁出行。</p></div>
-                    <div class="tip"><h4><i class="fa-solid fa-utensils"></i>美食</h4><p>前门大街：全聚德烤鸭、都一处烧麦。南锣鼓巷：文宇奶酪、炸酱面。簋街：小龙虾、麻辣香锅。</p></div>
+                    <div class="tip"><h4><i class="fa-solid fa-subway"></i>交通</h4><p>优先地铁出行，北京核心景点之间切换更稳定。</p></div>
+                    <div class="tip"><h4><i class="fa-solid fa-shirt"></i>穿搭</h4><p>清明前后早晚温差明显，建议轻外套加舒适运动鞋。</p></div>
                     <div class="tip"><h4><i class="fa-solid fa-camera-retro"></i>拍照</h4><p>景山看故宫、天安门看夜景、什刹海看日落，这三个时间点最值钱。</p></div>
-                    <div class="tip"><h4><i class="fa-solid fa-shirt"></i>穿搭</h4><p>清明前后早晚温差明显（8-20°C），建议轻外套加舒适运动鞋。</p></div>
                 </div>
             </article>
         </section>
@@ -687,7 +627,7 @@
         </footer>
         <section class="city-footer">
             <h3><i class="fa-solid fa-fan"></i> 页面现在更像一页北京行旅册</h3>
-            <p>我把北京元素控制在"有气质但不喧宾夺主"的范围里，重点仍然是行程本身，只是画面和文字会更有在地感。</p>
+            <p>我把北京元素控制在“有气质但不喧宾夺主”的范围里，重点仍然是行程本身，只是画面和文字会更有在地感。</p>
         </section>
     </main>
 
