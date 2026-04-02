@@ -457,6 +457,17 @@
             margin-top: 16px;
         }
 
+        .map-note {
+            margin-top: 14px;
+            padding: 12px 14px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.72);
+            border: 1px solid rgba(89, 55, 28, 0.08);
+            color: var(--muted);
+            line-height: 1.7;
+            font-size: 0.92rem;
+        }
+
         .legend-item {
             display: flex;
             align-items: center;
@@ -487,6 +498,48 @@
         .leaflet-popup-content {
             margin: 12px 14px;
             font-family: "Outfit", "PingFang SC", "Microsoft YaHei", sans-serif;
+        }
+
+        .popup-actions {
+            display: grid;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .popup-coord,
+        .popup-nav {
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+            padding: 10px 12px;
+            text-align: left;
+            font: inherit;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        .popup-coord {
+            background: rgba(234, 213, 196, 0.55);
+            color: var(--accent-deep);
+        }
+
+        .popup-nav {
+            background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+            color: #fff8f3;
+            font-weight: 600;
+            box-shadow: 0 10px 20px rgba(108, 38, 25, 0.18);
+        }
+
+        .popup-coord:hover,
+        .popup-nav:hover {
+            transform: translateY(-1px);
+        }
+
+        .popup-note {
+            margin: 2px 0 0;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.5;
         }
 
         .spot-label {
@@ -584,6 +637,9 @@
                     </div>
                 </div>
                 <div id="mapContainer"></div>
+                <div class="map-note">
+                    地图点位支持直接调起高德导航。手机上点开任意点位后，点击坐标或“打开高德导航”即可查看到达路线；已安装高德 App 时会优先唤起，未安装时回退到高德网页。
+                </div>
                 <div class="map-legend">
                     <div class="legend-item"><span class="legend-dot day1"></span>Day 1 景点</div>
                     <div class="legend-item"><span class="legend-dot day2"></span>Day 2 景点</div>
@@ -758,6 +814,98 @@
             return '<div class="map-pin" style="position: relative; background:' + color + ';"></div>';
         }
 
+        function formatCoordinate(value) {
+            return Number(value).toFixed(6);
+        }
+
+        function escapeHtml(value) {
+            return String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function buildAmapNavigationUrl(item) {
+            var lng = formatCoordinate(item.position[0]);
+            var lat = formatCoordinate(item.position[1]);
+            var name = encodeURIComponent(item.name);
+            return 'https://uri.amap.com/navigation?to=' + lng + ',' + lat + ',' + name + '&mode=car&policy=1&src=beijing-trip&coordinate=gaode&callnative=1';
+        }
+
+        function buildAmapSchemeUrl(item) {
+            var lng = formatCoordinate(item.position[0]);
+            var lat = formatCoordinate(item.position[1]);
+            var name = encodeURIComponent(item.name);
+            var appName = 'beijing-trip-web';
+            if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                return 'iosamap://path?sourceApplication=' + appName + '&dev=0&t=0&dlat=' + lat + '&dlon=' + lng + '&dname=' + name;
+            }
+            return 'amapuri://route/plan/?sourceApplication=' + appName + '&dev=0&t=0&dlat=' + lat + '&dlon=' + lng + '&dname=' + name;
+        }
+
+        function tryOpenUrl(url) {
+            window.location.href = url;
+        }
+
+        function openAmapNavigation(item) {
+            var schemeUrl = buildAmapSchemeUrl(item);
+            var webUrl = buildAmapNavigationUrl(item);
+            var fallbackTimer = null;
+            var cancelled = false;
+
+            function cancelFallback() {
+                if (cancelled) {
+                    return;
+                }
+                cancelled = true;
+                if (fallbackTimer) {
+                    clearTimeout(fallbackTimer);
+                }
+                document.removeEventListener('visibilitychange', handleVisibilityChange);
+                window.removeEventListener('pagehide', cancelFallback);
+                window.removeEventListener('blur', cancelFallback);
+            }
+
+            function handleVisibilityChange() {
+                if (document.hidden) {
+                    cancelFallback();
+                }
+            }
+
+            document.addEventListener('visibilitychange', handleVisibilityChange);
+            window.addEventListener('pagehide', cancelFallback);
+            window.addEventListener('blur', cancelFallback);
+
+            fallbackTimer = setTimeout(function() {
+                cancelFallback();
+                tryOpenUrl(webUrl);
+            }, 1400);
+
+            tryOpenUrl(schemeUrl);
+        }
+
+        function buildPopupContent(item, markerTag) {
+            var lng = formatCoordinate(item.position[0]);
+            var lat = formatCoordinate(item.position[1]);
+            var safeName = escapeHtml(item.name);
+            var safeTag = escapeHtml(markerTag);
+            return '<div style="min-width: 190px;">' +
+                '<h4 style="margin: 0 0 8px 0; color: #6c2619; font-size: 14px; font-weight: bold;">' + safeName + '</h4>' +
+                '<p style="margin: 0; color: #6c6259; font-size: 12px;">' + safeTag + '</p>' +
+                '<div class="popup-actions">' +
+                '<button class="popup-coord js-amap-nav" type="button" data-name="' + safeName + '" data-lng="' + lng + '" data-lat="' + lat + '">' +
+                '<i class="fa-solid fa-location-dot"></i> 坐标：' + lng + ', ' + lat +
+                '</button>' +
+                '<button class="popup-nav js-amap-nav" type="button" data-name="' + safeName + '" data-lng="' + lng + '" data-lat="' + lat + '">' +
+                '<i class="fa-solid fa-route"></i> 打开高德导航' +
+                '</button>' +
+                '<p class="popup-note">默认从当前位置出发，兼容 iOS 和 Android 手机浏览器。</p>' +
+                '</div>' +
+                '</div>';
+        }
+
         function outOfChina(lng, lat) {
             return lng < 72.004 || lng > 137.8347 || lat < 0.8293 || lat > 55.8271;
         }
@@ -865,10 +1013,7 @@
                     sticky: true
                 });
                 currentMarkers.push(marker);
-                var infoContent = '<div style="min-width: 150px;">' +
-                    '<h4 style="margin: 0 0 8px 0; color: #6c2619; font-size: 14px; font-weight: bold;">' + item.name + '</h4>' +
-                    '<p style="margin: 0; color: #6c6259; font-size: 12px;">' + markerTag + '</p>' +
-                    '</div>';
+                var infoContent = buildPopupContent(item, markerTag);
                 marker.bindPopup(infoContent);
                 marker.addTo(markerLayer);
             });
@@ -891,6 +1036,23 @@
                 updateMarkers();
             });
         });
+
+        if (mapContainer) {
+            mapContainer.addEventListener('click', function(event) {
+                var trigger = event.target.closest('.js-amap-nav');
+                if (!trigger) {
+                    return;
+                }
+                event.preventDefault();
+                openAmapNavigation({
+                    name: trigger.getAttribute('data-name') || '目的地',
+                    position: [
+                        parseFloat(trigger.getAttribute('data-lng')),
+                        parseFloat(trigger.getAttribute('data-lat'))
+                    ]
+                });
+            });
+        }
 
         window.addEventListener('load', function() {
             if (!map && typeof L !== 'undefined') {
