@@ -349,7 +349,7 @@
         }
 
         .map-container h3 {
-            margin-bottom: 16px;
+            margin-bottom: 0;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -357,6 +357,57 @@
 
         .map-container h3 i {
             color: var(--accent);
+        }
+
+        .map-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .day-filter {
+            display: inline-flex;
+            gap: 8px;
+            padding: 6px;
+            border-radius: 999px;
+            background: rgba(255, 251, 245, 0.78);
+            border: 1px solid var(--line);
+        }
+
+        .day-btn {
+            border: none;
+            background: transparent;
+            color: var(--muted);
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .day-btn.active {
+            color: #fff8f3;
+            background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+        }
+
+        .day-btn:hover:not(.active) {
+            background: rgba(164, 74, 49, 0.1);
+        }
+
+        .day-btn[data-day="day1"].active {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .day-btn[data-day="day2"].active {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .day-btn[data-day="day3"].active {
+            background: linear-gradient(135deg, #27ae60, #1e8449);
         }
 
         #mapContainer {
@@ -523,7 +574,15 @@
 
         <section class="map-section">
             <div class="map-container">
-                <h3><i class="fa-solid fa-map-location-dot"></i>景点地图总览</h3>
+                <div class="map-header">
+                    <h3><i class="fa-solid fa-map-location-dot"></i>景点地图总览</h3>
+                    <div class="day-filter">
+                        <button class="day-btn active" data-day="all">全部</button>
+                        <button class="day-btn" data-day="day1">Day 1</button>
+                        <button class="day-btn" data-day="day2">Day 2</button>
+                        <button class="day-btn" data-day="day3">Day 3</button>
+                    </div>
+                </div>
                 <div id="mapContainer"></div>
                 <div class="map-legend">
                     <div class="legend-item"><span class="legend-dot day1"></span>Day 1 景点</div>
@@ -635,6 +694,7 @@
         var currentMarkers = [];
         var markerLayer = null;
         var mapContainer = document.getElementById('mapContainer');
+        var currentDayFilter = 'all';
 
         var planAMarkers = [
             { name: '北京南站', position: [116.378517, 39.865246], day: 'day1' },
@@ -786,6 +846,9 @@
             clearMarkers();
 
             planAMarkers.forEach(function(item) {
+                if (currentDayFilter !== 'all' && item.day !== currentDayFilter && item.day !== 'hotel') {
+                    return;
+                }
                 var color = getMarkerColor(item);
                 var markerTag = getMarkerTag(item);
                 var position = gcj02ToWgs84(item.position);
@@ -816,6 +879,17 @@
         }
 
         setMapPlaceholder('地图加载中，请稍候...');
+
+        document.querySelectorAll('.day-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.day-btn').forEach(function(b) {
+                    b.classList.remove('active');
+                });
+                this.classList.add('active');
+                currentDayFilter = this.getAttribute('data-day');
+                updateMarkers();
+            });
+        });
 
         window.addEventListener('load', function() {
             if (!map && typeof L !== 'undefined') {
