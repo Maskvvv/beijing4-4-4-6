@@ -8,6 +8,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""
+    >
     <style>
         :root {
             --bg: #f4efe6;
@@ -330,6 +336,123 @@
         .booking h4, .tip h4 { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
         .booking p, .tip p { color: var(--muted); line-height: 1.75; }
 
+        .map-section {
+            margin: 28px 0;
+        }
+
+        .map-container {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 28px;
+            box-shadow: var(--shadow);
+            padding: 22px;
+        }
+
+        .map-container h3 {
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .map-container h3 i {
+            color: var(--accent);
+        }
+
+        #mapContainer {
+            width: 100%;
+            height: 500px;
+            border-radius: 18px;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at top, rgba(199, 140, 57, 0.12), transparent 36%),
+                linear-gradient(180deg, rgba(255, 250, 243, 0.96), rgba(241, 231, 220, 0.96));
+        }
+
+        .map-placeholder {
+            height: 100%;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            color: var(--muted);
+            padding: 24px;
+            line-height: 1.8;
+        }
+
+        .map-pin {
+            width: 18px;
+            height: 18px;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            border: 2px solid #fff;
+            box-shadow: 0 8px 18px rgba(41, 29, 23, 0.22);
+        }
+
+        .map-pin::after {
+            content: "";
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.95);
+            top: 4px;
+            left: 4px;
+        }
+
+        .map-legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.72);
+            border-radius: 12px;
+            font-size: 0.9rem;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .legend-dot.day1 { background: #e74c3c; }
+        .legend-dot.day2 { background: #3498db; }
+        .legend-dot.day3 { background: #27ae60; }
+        .legend-dot.hotel { background: #9b59b6; }
+        .legend-dot.food { background: #f39c12; }
+
+        .leaflet-popup-content-wrapper {
+            border-radius: 14px;
+        }
+
+        .leaflet-popup-content {
+            margin: 12px 14px;
+            font-family: "Outfit", "PingFang SC", "Microsoft YaHei", sans-serif;
+        }
+
+        .spot-label {
+            padding: 2px 6px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(89, 55, 28, 0.14);
+            box-shadow: 0 4px 12px rgba(41, 29, 23, 0.08);
+            font-size: 11px;
+            line-height: 1.2;
+            color: #3d2d23;
+            white-space: nowrap;
+            max-width: 96px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
         footer {
             text-align: center;
             color: var(--muted);
@@ -339,6 +462,10 @@
         @media (max-width: 900px) {
             .hero, .summary-grid, .info-grid { grid-template-columns: 1fr; }
             .weather-grid, .chip-row, .stats { grid-template-columns: 1fr; }
+            .spot-label {
+                max-width: 72px;
+                font-size: 10px;
+            }
         }
 
         @media (max-width: 680px) {
@@ -396,6 +523,20 @@
                 <button class="tab-btn" type="button" data-target="plan-b">方案 B · 人文漫游</button>
             </div>
         </div>
+
+        <section class="map-section">
+            <div class="map-container">
+                <h3><i class="fa-solid fa-map-location-dot"></i>景点地图总览</h3>
+                <div id="mapContainer"></div>
+                <div class="map-legend">
+                    <div class="legend-item"><span class="legend-dot day1"></span>Day 1 景点</div>
+                    <div class="legend-item"><span class="legend-dot day2"></span>Day 2 景点</div>
+                    <div class="legend-item"><span class="legend-dot day3"></span>Day 3 景点</div>
+                    <div class="legend-item"><span class="legend-dot hotel"></span>住宿位置</div>
+                    <div class="legend-item"><span class="legend-dot food"></span>美食推荐</div>
+                </div>
+            </div>
+        </section>
 
         <section id="plan-a" class="panel active">
             <div class="summary-grid">
@@ -541,6 +682,221 @@
         </footer>
     </main>
 
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""
+    ></script>
+    <script type="text/javascript">
+        var map = null;
+        var currentMarkers = [];
+        var markerLayer = null;
+        var currentPlan = 'plan-a';
+        var mapContainer = document.getElementById('mapContainer');
+
+        var planAMarkers = [
+            { name: '北京南站', position: [116.378517, 39.865246], day: 'day1' },
+            { name: '天安门广场', position: [116.397755, 39.903182], day: 'day1' },
+            { name: '牛街美食街', position: [116.363972, 39.884264], day: 'day1', type: 'food' },
+            { name: '前门大街', position: [116.398022, 39.897549], day: 'day1' },
+            { name: '人民大会堂', position: [116.393823, 39.905024], day: 'day2' },
+            { name: '景山公园', position: [116.396551, 39.925875], day: 'day2' },
+            { name: '北海公园', position: [116.391802, 39.928775], day: 'day2' },
+            { name: '什刹海', position: [116.395411, 39.939538], day: 'day2' },
+            { name: '南锣鼓巷', position: [116.403145, 39.936302], day: 'day2' },
+            { name: '颐和园', position: [116.275179, 39.999617], day: 'day3' },
+            { name: '天坛公园', position: [116.412757, 39.890495], day: 'day3' },
+            { name: '菜市口地铁站(住宿)', position: [116.374425, 39.889297], day: 'hotel' }
+        ];
+
+        var planBMarkers = [
+            { name: '北京南站', position: [116.378517, 39.865246], day: 'day1' },
+            { name: '天安门广场', position: [116.397755, 39.903182], day: 'day1' },
+            { name: '牛街美食街', position: [116.363972, 39.884264], day: 'day1', type: 'food' },
+            { name: '大栅栏', position: [116.390839, 39.897915], day: 'day1' },
+            { name: '雍和宫', position: [116.417296, 39.947239], day: 'day2' },
+            { name: '国子监', position: [116.413285, 39.946777], day: 'day2' },
+            { name: '恭王府', position: [116.386442, 39.936428], day: 'day2' },
+            { name: '什刹海', position: [116.395411, 39.939538], day: 'day2' },
+            { name: '南锣鼓巷', position: [116.403145, 39.936302], day: 'day2' },
+            { name: '颐和园', position: [116.275179, 39.999617], day: 'day3' },
+            { name: '圆明园', position: [116.309879, 39.999581], day: 'day3' },
+            { name: '菜市口地铁站(住宿)', position: [116.374425, 39.889297], day: 'hotel' }
+        ];
+
+        var colors = {
+            'day1': '#e74c3c',
+            'day2': '#3498db',
+            'day3': '#27ae60',
+            'hotel': '#9b59b6',
+            'food': '#f39c12'
+        };
+
+        function setMapPlaceholder(message) {
+            if (!mapContainer || map) {
+                return;
+            }
+            mapContainer.innerHTML = '<div class="map-placeholder">' + message + '</div>';
+        }
+
+        function getMarkerKey(item) {
+            return item.type || item.day;
+        }
+
+        function getMarkerColor(item) {
+            return colors[getMarkerKey(item)] || '#a44a31';
+        }
+
+        function getMarkerTag(item) {
+            if (item.type === 'food') {
+                return '美食推荐';
+            }
+            if (item.day === 'hotel') {
+                return '住宿位置';
+            }
+            if (item.day === 'day1') {
+                return 'Day 1 景点';
+            }
+            if (item.day === 'day2') {
+                return 'Day 2 景点';
+            }
+            return 'Day 3 景点';
+        }
+
+        function createMarkerContent(color) {
+            return '<div class="map-pin" style="position: relative; background:' + color + ';"></div>';
+        }
+
+        function outOfChina(lng, lat) {
+            return lng < 72.004 || lng > 137.8347 || lat < 0.8293 || lat > 55.8271;
+        }
+
+        function transformLat(lng, lat) {
+            var ret = -100 + 2 * lng + 3 * lat + 0.2 * lat * lat + 0.1 * lng * lat + 0.2 * Math.sqrt(Math.abs(lng));
+            ret += (20 * Math.sin(6 * lng * Math.PI) + 20 * Math.sin(2 * lng * Math.PI)) * 2 / 3;
+            ret += (20 * Math.sin(lat * Math.PI) + 40 * Math.sin(lat / 3 * Math.PI)) * 2 / 3;
+            ret += (160 * Math.sin(lat / 12 * Math.PI) + 320 * Math.sin(lat * Math.PI / 30)) * 2 / 3;
+            return ret;
+        }
+
+        function transformLng(lng, lat) {
+            var ret = 300 + lng + 2 * lat + 0.1 * lng * lng + 0.1 * lng * lat + 0.1 * Math.sqrt(Math.abs(lng));
+            ret += (20 * Math.sin(6 * lng * Math.PI) + 20 * Math.sin(2 * lng * Math.PI)) * 2 / 3;
+            ret += (20 * Math.sin(lng * Math.PI) + 40 * Math.sin(lng / 3 * Math.PI)) * 2 / 3;
+            ret += (150 * Math.sin(lng / 12 * Math.PI) + 300 * Math.sin(lng / 30 * Math.PI)) * 2 / 3;
+            return ret;
+        }
+
+        function gcj02ToWgs84(position) {
+            var lng = position[0];
+            var lat = position[1];
+            if (outOfChina(lng, lat)) {
+                return [lng, lat];
+            }
+            var a = 6378245.0;
+            var ee = 0.00669342162296594323;
+            var dLat = transformLat(lng - 105.0, lat - 35.0);
+            var dLng = transformLng(lng - 105.0, lat - 35.0);
+            var radLat = lat / 180.0 * Math.PI;
+            var magic = Math.sin(radLat);
+            magic = 1 - ee * magic * magic;
+            var sqrtMagic = Math.sqrt(magic);
+            dLat = (dLat * 180.0) / ((a * (1 - ee)) / (magic * sqrtMagic) * Math.PI);
+            dLng = (dLng * 180.0) / (a / sqrtMagic * Math.cos(radLat) * Math.PI);
+            var mgLat = lat + dLat;
+            var mgLng = lng + dLng;
+            return [lng * 2 - mgLng, lat * 2 - mgLat];
+        }
+
+        function initMap() {
+            if (map || typeof L === 'undefined' || !mapContainer) {
+                return;
+            }
+            mapContainer.innerHTML = '';
+            map = L.map('mapContainer', {
+                zoomControl: true,
+                scrollWheelZoom: true
+            });
+            map.setView([39.90923, 116.397428], 11);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; OpenStreetMap'
+            }).addTo(map);
+
+            markerLayer = L.layerGroup().addTo(map);
+            updateMarkers(currentPlan);
+
+            setTimeout(function() {
+                map.invalidateSize();
+            });
+        }
+
+        function createLeafletIcon(color) {
+            return L.divIcon({
+                className: '',
+                html: createMarkerContent(color),
+                iconSize: [18, 18],
+                iconAnchor: [9, 18],
+                popupAnchor: [0, -18]
+            });
+        }
+
+        function clearMarkers() {
+            if (markerLayer) {
+                markerLayer.clearLayers();
+            }
+            currentMarkers = [];
+        }
+
+        function updateMarkers(plan) {
+            if (!map || typeof L === 'undefined') {
+                return;
+            }
+            clearMarkers();
+
+            var markers = plan === 'plan-a' ? planAMarkers : planBMarkers;
+
+            markers.forEach(function(item) {
+                var color = getMarkerColor(item);
+                var markerTag = getMarkerTag(item);
+                var position = gcj02ToWgs84(item.position);
+                var marker = L.marker([position[1], position[0]], {
+                    title: item.name,
+                    icon: createLeafletIcon(color)
+                });
+                marker.bindTooltip('<div class="spot-label">' + item.name + '</div>', {
+                    permanent: window.innerWidth > 900,
+                    direction: 'right',
+                    offset: [8, -4],
+                    opacity: 0.92,
+                    sticky: true
+                });
+                currentMarkers.push(marker);
+                var infoContent = '<div style="min-width: 150px;">' +
+                    '<h4 style="margin: 0 0 8px 0; color: #6c2619; font-size: 14px; font-weight: bold;">' + item.name + '</h4>' +
+                    '<p style="margin: 0; color: #6c6259; font-size: 12px;">' + markerTag + '</p>' +
+                    '</div>';
+                marker.bindPopup(infoContent);
+                marker.addTo(markerLayer);
+            });
+
+            if (currentMarkers.length) {
+                var group = L.featureGroup(currentMarkers);
+                map.fitBounds(group.getBounds().pad(0.18));
+            }
+        }
+
+        setMapPlaceholder('地图加载中，请稍候...');
+
+        window.addEventListener('load', function() {
+            if (!map && typeof L !== 'undefined') {
+                initMap();
+            } else if (!map && typeof L === 'undefined') {
+                setMapPlaceholder('地图脚本未加载成功，请检查网络后刷新页面。');
+            }
+        });
+    </script>
     <script>
         const buttons = document.querySelectorAll(".tab-btn");
         const panels = document.querySelectorAll(".panel");
@@ -552,6 +908,11 @@
                 panels.forEach((panel) => panel.classList.remove("active"));
                 button.classList.add("active");
                 document.getElementById(target).classList.add("active");
+                
+                currentPlan = target;
+                if (map) {
+                    updateMarkers(target);
+                }
             });
         });
     </script>
