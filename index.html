@@ -500,46 +500,45 @@
             font-family: "Outfit", "PingFang SC", "Microsoft YaHei", sans-serif;
         }
 
-        .popup-actions {
-            display: grid;
-            gap: 8px;
-            margin-top: 10px;
+        .popup-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 8px;
         }
 
-        .popup-coord,
+        .popup-title {
+            margin: 0;
+            color: #6c2619;
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 1.4;
+        }
+
         .popup-nav {
-            width: 100%;
             border: none;
-            border-radius: 12px;
-            padding: 10px 12px;
-            text-align: left;
+            padding: 0;
+            background: transparent;
+            text-align: center;
             font: inherit;
             cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-        }
-
-        .popup-coord {
-            background: rgba(234, 213, 196, 0.55);
-            color: var(--accent-deep);
+            color: var(--accent);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
         }
 
         .popup-nav {
-            background: linear-gradient(135deg, var(--accent), var(--accent-deep));
-            color: #fff8f3;
-            font-weight: 600;
-            box-shadow: 0 10px 20px rgba(108, 38, 25, 0.18);
+            display: inline-grid;
+            place-items: center;
         }
 
-        .popup-coord:hover,
         .popup-nav:hover {
+            background: rgba(164, 74, 49, 0.08);
+            color: var(--accent-deep);
             transform: translateY(-1px);
-        }
-
-        .popup-note {
-            margin: 2px 0 0;
-            color: var(--muted);
-            font-size: 11px;
-            line-height: 1.5;
         }
 
         .spot-label {
@@ -637,9 +636,7 @@
                     </div>
                 </div>
                 <div id="mapContainer"></div>
-                <div class="map-note">
-                    地图点位支持直接调起高德导航。手机上点开任意点位后，点击坐标或“打开高德导航”即可查看到达路线；已安装高德 App 时会优先唤起，未安装时回退到高德网页。
-                </div>
+ 
                 <div class="map-legend">
                     <div class="legend-item"><span class="legend-dot day1"></span>Day 1 景点</div>
                     <div class="legend-item"><span class="legend-dot day2"></span>Day 2 景点</div>
@@ -892,17 +889,13 @@
             var safeName = escapeHtml(item.name);
             var safeTag = escapeHtml(markerTag);
             return '<div style="min-width: 190px;">' +
-                '<h4 style="margin: 0 0 8px 0; color: #6c2619; font-size: 14px; font-weight: bold;">' + safeName + '</h4>' +
-                '<p style="margin: 0; color: #6c6259; font-size: 12px;">' + safeTag + '</p>' +
-                '<div class="popup-actions">' +
-                '<button class="popup-coord js-amap-nav" type="button" data-name="' + safeName + '" data-lng="' + lng + '" data-lat="' + lat + '">' +
-                '<i class="fa-solid fa-location-dot"></i> 坐标：' + lng + ', ' + lat +
+                '<div class="popup-head">' +
+                '<h4 class="popup-title">' + safeName + '</h4>' +
+                '<button class="popup-nav js-amap-nav" type="button" aria-label="导航到' + safeName + '" title="导航到' + safeName + '" data-name="' + safeName + '" data-lng="' + lng + '" data-lat="' + lat + '">' +
+                '<i class="fa-solid fa-location-arrow"></i>' +
                 '</button>' +
-                '<button class="popup-nav js-amap-nav" type="button" data-name="' + safeName + '" data-lng="' + lng + '" data-lat="' + lat + '">' +
-                '<i class="fa-solid fa-route"></i> 打开高德导航' +
-                '</button>' +
-                '<p class="popup-note">默认从当前位置出发，兼容 iOS 和 Android 手机浏览器。</p>' +
                 '</div>' +
+                '<p style="margin: 0; color: #6c6259; font-size: 12px;">' + safeTag + '</p>' +
                 '</div>';
         }
 
