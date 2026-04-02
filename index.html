@@ -810,9 +810,10 @@
             });
             map.setView([39.90923, 116.397428], 11);
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '&copy; OpenStreetMap'
+            L.tileLayer('http://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
+                subdomains: ['1', '2', '3', '4'],
+                maxZoom: 18,
+                attribution: '&copy; 高德地图'
             }).addTo(map);
 
             markerLayer = L.layerGroup().addTo(map);
@@ -852,8 +853,7 @@
                 }
                 var color = getMarkerColor(item);
                 var markerTag = getMarkerTag(item);
-                var position = gcj02ToWgs84(item.position);
-                var marker = L.marker([position[1], position[0]], {
+                var marker = L.marker([item.position[1], item.position[0]], {
                     title: item.name,
                     icon: createLeafletIcon(color)
                 });
