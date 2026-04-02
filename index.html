@@ -290,7 +290,7 @@
         }
 
         .time { color: var(--accent-deep); font-weight: 700; }
-        .title { display: flex; gap: 10px; align-items: center; font-weight: 700; }
+        .title { display: flex; gap: 10px; align-items: center; font-weight: 700; flex-wrap: wrap; }
         .desc { color: var(--muted); line-height: 1.75; margin-top: 8px; }
         .tag {
             display: inline-flex;
@@ -323,6 +323,33 @@
         .spot-info strong {
             color: var(--accent-deep);
             font-size: 1rem;
+        }
+
+        .nav-inline-text {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-inline-btn {
+            display: inline-grid;
+            place-items: center;
+            width: 24px;
+            height: 24px;
+            border: none;
+            border-radius: 50%;
+            padding: 0;
+            background: transparent;
+            color: var(--accent);
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+            vertical-align: middle;
+        }
+
+        .nav-inline-btn:hover {
+            background: rgba(164, 74, 49, 0.08);
+            color: var(--accent-deep);
+            transform: translateY(-1px);
         }
 
         .spot-info p {
@@ -748,6 +775,16 @@
         var markerLayer = null;
         var mapContainer = document.getElementById('mapContainer');
         var currentDayFilter = 'all';
+        var navigationAliasMap = {
+            '威尼斯花园六区拍照': '威尼斯花园六区',
+            '天安门广场夜景': '天安门广场',
+            '牛街夜宵': '牛街美食街',
+            '四季民福烤鸭午餐': '四季民福烤鸭店(故宫店)',
+            '什刹海 + 南锣鼓巷': '什刹海',
+            '国子监 + 孔庙': '国子监',
+            '恭王府 ⭐必去': '恭王府',
+            '什刹海快速打卡': '什刹海'
+        };
 
         var planAMarkers = [
             { name: '北京南站', position: [116.378517, 39.865246], day: 'day1' },
@@ -813,6 +850,15 @@
 
         function formatCoordinate(value) {
             return Number(value).toFixed(6);
+        }
+
+        function normalizePlaceText(value) {
+            return String(value || '')
+                .replace(/[⭐★]/g, '')
+                .replace(/[（(][^（）()]*[）)]/g, '')
+                .replace(/前往|抵达|夜景|夜宵|午餐|晚餐|取号|拍照|快速打卡|步行至|候车|返程|逛吃|办理入住|必去/g, '')
+                .replace(/[+\s·•,，。！？!?:：、"'“”‘’\-]/g, '')
+                .trim();
         }
 
         function escapeHtml(value) {
@@ -897,6 +943,70 @@
                 '</div>' +
                 '<p style="margin: 0; color: #6c6259; font-size: 12px;">' + safeTag + '</p>' +
                 '</div>';
+        }
+
+        function resolveNavigationTarget(name) {
+            var alias = navigationAliasMap[name];
+            var sourceName = alias || name;
+            var normalizedSource = normalizePlaceText(sourceName);
+            var bestMatch = null;
+            var bestLength = 0;
+
+            planAMarkers.forEach(function(item) {
+                var normalizedItem = normalizePlaceText(item.name);
+                if (!normalizedItem) {
+                    return;
+                }
+                if (normalizedItem === normalizedSource || normalizedSource === normalizedItem ||
+                    normalizedSource.indexOf(normalizedItem) !== -1 || normalizedItem.indexOf(normalizedSource) !== -1) {
+                    if (normalizedItem.length > bestLength) {
+                        bestMatch = item;
+                        bestLength = normalizedItem.length;
+                    }
+                }
+            });
+
+            return bestMatch;
+        }
+
+        function createInlineNavigationButton(item, label) {
+            return '<button class="nav-inline-btn js-amap-nav" type="button" aria-label="导航到' + escapeHtml(label) + '" title="导航到' + escapeHtml(label) + '" data-name="' + escapeHtml(item.name) + '" data-lng="' + formatCoordinate(item.position[0]) + '" data-lat="' + formatCoordinate(item.position[1]) + '">' +
+                '<i class="fa-solid fa-location-arrow"></i>' +
+                '</button>';
+        }
+
+        function isNavigableTitleLabel(label) {
+            return !/^(前往|抵达|步行至)/.test(label) &&
+                !/(候车|返程|办理入住|逛吃|取号)$/.test(label);
+        }
+
+        function enhanceItineraryNavigation() {
+            document.querySelectorAll('.timeline .title, .timeline .spot-info strong').forEach(function(node) {
+                if (node.querySelector('.nav-inline-btn')) {
+                    return;
+                }
+
+                var label = node.textContent.trim();
+                if (node.classList.contains('title') && !isNavigableTitleLabel(label)) {
+                    return;
+                }
+                var target = resolveNavigationTarget(label);
+                if (!target) {
+                    return;
+                }
+
+                if (node.classList.contains('title')) {
+                    var iconHtml = '';
+                    var iconElement = node.querySelector('i');
+                    if (iconElement) {
+                        iconHtml = iconElement.outerHTML;
+                    }
+                    node.innerHTML = iconHtml + '<span class="nav-inline-text">' + escapeHtml(label) + createInlineNavigationButton(target, label) + '</span>';
+                    return;
+                }
+
+                node.innerHTML = '<span class="nav-inline-text">' + escapeHtml(label) + createInlineNavigationButton(target, label) + '</span>';
+            });
         }
 
         function outOfChina(lng, lat) {
@@ -1030,24 +1140,23 @@
             });
         });
 
-        if (mapContainer) {
-            mapContainer.addEventListener('click', function(event) {
-                var trigger = event.target.closest('.js-amap-nav');
-                if (!trigger) {
-                    return;
-                }
-                event.preventDefault();
-                openAmapNavigation({
-                    name: trigger.getAttribute('data-name') || '目的地',
-                    position: [
-                        parseFloat(trigger.getAttribute('data-lng')),
-                        parseFloat(trigger.getAttribute('data-lat'))
-                    ]
-                });
+        document.addEventListener('click', function(event) {
+            var trigger = event.target.closest('.js-amap-nav');
+            if (!trigger) {
+                return;
+            }
+            event.preventDefault();
+            openAmapNavigation({
+                name: trigger.getAttribute('data-name') || '目的地',
+                position: [
+                    parseFloat(trigger.getAttribute('data-lng')),
+                    parseFloat(trigger.getAttribute('data-lat'))
+                ]
             });
-        }
+        });
 
         window.addEventListener('load', function() {
+            enhanceItineraryNavigation();
             if (!map && typeof L !== 'undefined') {
                 initMap();
             } else if (!map && typeof L === 'undefined') {
